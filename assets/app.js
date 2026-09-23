@@ -1,5 +1,5 @@
 const config = window.ESTAGIO_CONFIG;
-const configured = !config.owner.startsWith("SEU_") && config.repo !== "estagio-publico";
+const configured = !config.owner.startsWith("SEU_");
 const repoUrl = `https://github.com/${config.owner}/${config.repo}`;
 
 document.title = config.title;
