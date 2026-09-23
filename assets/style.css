@@ -10,6 +10,12 @@ nav { display: flex; flex-wrap: wrap; gap: .65rem; }
 .button.primary { color: #172554; background: #fff; border-color: #fff; }
 main, footer { max-width: 1320px; margin: 0 auto; padding: 1.5rem; }
 .notice { padding: 1rem 1.15rem; border-left: 4px solid #2563eb; border-radius: .35rem; background: #dbeafe; }
+.callout { display: flex; align-items: center; justify-content: space-between; gap: 1.5rem; margin-top: 1.25rem; padding: 1.25rem; border-radius: .75rem; color: #e2e8f0; background: #172554; }
+.callout h2 { margin: .2rem 0 .55rem; color: #fff; font-size: 1.35rem; }
+.callout p { margin: 0; max-width: 52rem; }
+.callout .eyebrow { color: #bfdbfe; }
+.button.dark { border-color: #93c5fd; }
+.button.dark:hover { color: #172554; background: #fff; }
 .status { min-height: 1.4rem; color: #475569; }
 .board { display: grid; grid-template-columns: repeat(5, minmax(230px, 1fr)); gap: 1rem; overflow-x: auto; padding-bottom: 1rem; }
 .column { min-width: 230px; padding: 1rem; border-radius: .75rem; background: #e8edf7; }
@@ -21,4 +27,4 @@ main, footer { max-width: 1320px; margin: 0 auto; padding: 1.5rem; }
 .card p, .card small { margin: 0; color: #475569; }
 .empty { color: #64748b; font-size: .9rem; }
 footer { color: #64748b; font-size: .9rem; }
-@media (max-width: 760px) { .hero { align-items: start; flex-direction: column; padding: 2rem 1.5rem; } .board { grid-template-columns: repeat(5, minmax(260px, 1fr)); } }
+@media (max-width: 760px) { .hero, .callout { align-items: start; flex-direction: column; } .hero { padding: 2rem 1.5rem; } .board { grid-template-columns: repeat(5, minmax(260px, 1fr)); } }

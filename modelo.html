@@ -1,0 +1,113 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Modelo público do sistema de reserva e alocação de salas e laboratórios da UDF">
+    <title>Modelo do sistema | Estágio Público</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+      .spec { max-width: 980px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+      .spec h2 { margin-top: 2.5rem; color: #172554; }
+      .spec h3 { margin-bottom: .35rem; }
+      .lead { max-width: 52rem; color: #475569; font-size: 1.15rem; line-height: 1.6; }
+      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1rem; }
+      .panel { padding: 1.15rem; border: 1px solid #dbe3f0; border-radius: .7rem; background: #fff; box-shadow: 0 1px 2px #17203310; }
+      .panel p, .panel li { color: #475569; line-height: 1.5; }
+      .tag { display: inline-block; padding: .2rem .5rem; border-radius: 999px; font-size: .75rem; font-weight: 800; color: #075985; background: #e0f2fe; }
+      .tag.proposed { color: #92400e; background: #fef3c7; }
+      .flow { display: flex; flex-wrap: wrap; gap: .5rem; align-items: center; padding: 1rem; border-radius: .7rem; background: #e8edf7; font-weight: 700; }
+      .arrow { color: #2563eb; font-size: 1.25rem; }
+      .decision { border-left: 4px solid #d97706; padding: 1rem 1.15rem; background: #fffbeb; border-radius: .35rem; }
+      table { width: 100%; border-collapse: collapse; background: #fff; }
+      th, td { padding: .8rem; text-align: left; vertical-align: top; border-bottom: 1px solid #dbe3f0; }
+      th { color: #172554; }
+      @media (max-width: 600px) { table { font-size: .9rem; } th, td { padding: .55rem; } }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">MODELO PÚBLICO DO PRODUTO</p>
+        <h1>Salas e laboratórios da UDF</h1>
+        <p>Especificação inicial para reserva, alocação e gestão de espaços acadêmicos.</p>
+      </div>
+      <nav aria-label="Navegação">
+        <a class="button" href="index.html">Quadro de tarefas</a>
+        <a class="button primary" href="https://github.com/Lucasdoreac/estagio-publico/issues">Acompanhar entregas</a>
+      </nav>
+    </header>
+
+    <main class="spec">
+      <p class="lead">Este documento transforma a demonstração pública em uma proposta completa de produto. Ele preserva o que já foi confirmado no caderno do estágio e identifica como proposta tudo que ainda precisa de aprovação da UDF.</p>
+
+      <h2>Escopo e resultado esperado</h2>
+      <div class="grid">
+        <article class="panel"><span class="tag">CONFIRMADO</span><h3>Gestão de espaços</h3><p>O sistema deve gerenciar salas e laboratórios e permitir reserva e alocação.</p></article>
+        <article class="panel"><span class="tag">CONFIRMADO</span><h3>Uso institucional</h3><p>A solução deve ser utilizável no contexto da instituição e considerar ferramentas gratuitas ou abertas.</p></article>
+        <article class="panel"><span class="tag proposed">A VALIDAR</span><h3>Política operacional</h3><p>Quem reserva, quem aprova, prazos, prioridades e regras de recorrência dependem de decisão institucional.</p></article>
+      </div>
+
+      <h2>Pessoas e permissões</h2>
+      <table><thead><tr><th>Perfil</th><th>O que faz</th><th>O que pode aparecer publicamente</th></tr></thead><tbody>
+        <tr><td>Visitante</td><td>Consulta disponibilidade, regras e agenda publicada.</td><td>Espaço, data, horário e estado disponível/ocupado.</td></tr>
+        <tr><td>Solicitante</td><td>Pesquisa espaço, cria, altera ou cancela a própria solicitação.</td><td>Nenhum dado pessoal ou motivo da reserva.</td></tr>
+        <tr><td>Aprovador</td><td>Analisa solicitações e aplica a política da unidade.</td><td>Somente o estado consolidado da agenda.</td></tr>
+        <tr><td>Gestor de espaço</td><td>Configura capacidade, recursos, acessibilidade, bloqueios e manutenção.</td><td>Características do espaço e indisponibilidades genéricas.</td></tr>
+        <tr><td>Administrador</td><td>Gerencia perfis, unidades, auditoria e parâmetros.</td><td>Não publica dados de acesso nem histórico identificável.</td></tr>
+      </tbody></table>
+
+      <h2>Jornada de reserva</h2>
+      <div class="flow"><span>Rascunho</span><span class="arrow">→</span><span>Solicitada</span><span class="arrow">→</span><span>Em análise</span><span class="arrow">→</span><span>Aprovada ou recusada</span><span class="arrow">→</span><span>Check-in, uso ou ausência</span><span class="arrow">→</span><span>Concluída</span></div>
+      <p>Cancelamento, remarcação e bloqueio podem ocorrer antes do uso. Toda mudança produz um evento de auditoria com data, responsável e motivo operacional.</p>
+
+      <h2>Casos que o sistema precisa resolver</h2>
+      <div class="grid">
+        <article class="panel"><h3>Pesquisa de disponibilidade</h3><p>Filtrar por campus, capacidade, recursos, acessibilidade, data e horário; mostrar alternativas compatíveis.</p></article>
+        <article class="panel"><h3>Reserva avulsa e recorrente</h3><p>Solicitar um encontro único ou uma série. A série deve validar cada ocorrência e informar conflitos pontuais.</p></article>
+        <article class="panel"><h3>Conflito e lista de espera</h3><p>Impedir dupla ocupação, sugerir outros horários e, se adotada, registrar prioridade e posição da espera.</p></article>
+        <article class="panel"><h3>Aprovação</h3><p>Aprovar automaticamente quando a regra permitir ou encaminhar para uma unidade responsável.</p></article>
+        <article class="panel"><h3>Bloqueio de espaço</h3><p>Suspender agenda por manutenção, evento institucional, segurança ou indisponibilidade técnica.</p></article>
+        <article class="panel"><h3>Realocação urgente</h3><p>Encontrar alternativas quando uma sala é bloqueada depois de uma reserva confirmada.</p></article>
+        <article class="panel"><h3>Check-in e ausência</h3><p>Registrar chegada por mecanismo definido pela UDF e liberar o espaço conforme a regra de não comparecimento.</p></article>
+        <article class="panel"><h3>Relatórios</h3><p>Medir ocupação, conflitos, ausências, recursos mais solicitados e capacidade ociosa, com dados agregados.</p></article>
+      </div>
+
+      <h2>Regras operacionais propostas</h2>
+      <div class="grid">
+        <article class="panel"><span class="tag proposed">A VALIDAR</span><h3>Conflitos</h3><p>Uma reserva aprovada ocupa um único espaço durante um intervalo sem sobreposição. Bloqueios institucionais têm precedência.</p></article>
+        <article class="panel"><span class="tag proposed">A VALIDAR</span><h3>Prioridade</h3><p>Atividades acadêmicas obrigatórias, necessidade de laboratório, acessibilidade e maior adequação de capacidade devem orientar a fila.</p></article>
+        <article class="panel"><span class="tag proposed">A VALIDAR</span><h3>Antecedência</h3><p>Definir janelas mínimas e máximas para pedidos, cancelamento e aprovação, por tipo de espaço e unidade.</p></article>
+        <article class="panel"><span class="tag proposed">A VALIDAR</span><h3>Transparência</h3><p>A agenda pública mostra disponibilidade. Identidade do solicitante, finalidade detalhada e contatos ficam no ambiente autenticado.</p></article>
+      </div>
+
+      <h2>Dados que sustentam o produto</h2>
+      <table><thead><tr><th>Entidade</th><th>Informações essenciais</th></tr></thead><tbody>
+        <tr><td>Espaço</td><td>Campus, localização, tipo, capacidade, recursos, acessibilidade, responsável e estado.</td></tr>
+        <tr><td>Faixa de horário</td><td>Início, fim, fuso, período letivo e regras de funcionamento.</td></tr>
+        <tr><td>Reserva e série</td><td>Espaço, solicitante autenticado, intervalo, estado, recorrência e justificativa interna.</td></tr>
+        <tr><td>Bloqueio</td><td>Espaço, período, categoria e motivo operacional.</td></tr>
+        <tr><td>Auditoria</td><td>Ação, momento, responsável, origem e mudança registrada.</td></tr>
+      </tbody></table>
+
+      <h2>Arquitetura aberta e segura</h2>
+      <div class="grid">
+        <article class="panel"><h3>Camada pública</h3><p>GitHub Pages pode publicar o cronograma do projeto, documentação, agenda sem identificação e decisões abertas.</p></article>
+        <article class="panel"><h3>Aplicação autenticada</h3><p>Reservas, aprovações e auditoria exigem servidor, banco de dados e autenticação institucional. Uma página estática não é suficiente.</p></article>
+        <article class="panel"><h3>Código aberto</h3><p>Repositório público, licenças explícitas, issues, documentação de implantação e dados de demonstração permitem colaboração sem expor dados reais.</p></article>
+      </div>
+
+      <h2>Decisões necessárias antes do MVP</h2>
+      <div class="decision"><strong>A UDF precisa validar:</strong> público atendido; catálogo inicial de espaços; política de prioridade; fluxo e responsáveis por aprovação; limites de recorrência; regra de ausência; autenticação institucional; integração com calendário; política de retenção de dados e responsáveis pela operação.</div>
+
+      <h2>Roteiro de entrega</h2>
+      <table><thead><tr><th>Etapa</th><th>Entrega verificável</th></tr></thead><tbody>
+        <tr><td>1. Descoberta</td><td>Políticas aprovadas, catálogo de espaços e jornadas validadas com os responsáveis.</td></tr>
+        <tr><td>2. MVP</td><td>Consulta de disponibilidade, pedido avulso, prevenção de conflito, aprovação e agenda autenticada.</td></tr>
+        <tr><td>3. Operação</td><td>Recorrência, bloqueios, notificações, auditoria, relatórios agregados e acessibilidade verificada.</td></tr>
+        <tr><td>4. Evolução</td><td>Integrações institucionais, lista de espera, check-in e realocação assistida.</td></tr>
+      </tbody></table>
+    </main>
+    <footer><p>Documento público de trabalho. Acompanhe e proponha ajustes no <a href="https://github.com/Lucasdoreac/estagio-publico/issues">repositório do estágio</a>.</p></footer>
+  </body>
+</html>

@@ -4,6 +4,11 @@ Um quadro público, sem login, para acompanhar o trabalho da squad. O site usa
 issues públicas do GitHub como fonte de verdade e as organiza por rótulos de
 status.
 
+O site também publica o [modelo do sistema de reserva e alocação de salas e
+laboratórios](modelo.html), com os casos de uso, regras propostas, limites de
+privacidade e decisões que ainda dependem de validação. A versão detalhada para
+implementação está em [docs/PRODUCT_SPEC.md](docs/PRODUCT_SPEC.md).
+
 ## Como funciona
 
 - Pessoas podem acompanhar o quadro no GitHub Pages sem uma conta GitHub.
