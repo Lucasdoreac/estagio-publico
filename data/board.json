@@ -1,0 +1,11 @@
+{
+  "issues": [
+    {
+      "number": 1,
+      "title": "Configure o repositório para publicar o quadro",
+      "html_url": "#",
+      "labels": [{ "name": "status:a-fazer" }],
+      "body": "Este cartão de exemplo desaparece quando o repositório estiver configurado."
+    }
+  ]
+}

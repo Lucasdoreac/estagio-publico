@@ -1,0 +1,37 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Quadro público do estágio">
+    <title>Quadro público do estágio</title>
+    <link rel="stylesheet" href="assets/style.css">
+  </head>
+  <body>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">TRANSPARÊNCIA DA SQUAD</p>
+        <h1 id="title">Quadro público do estágio</h1>
+        <p id="description">Acompanhe tarefas, entregas e decisões da squad.</p>
+      </div>
+      <nav aria-label="Ações do projeto">
+        <a id="new-issue" class="button primary" href="#">Nova tarefa</a>
+        <a id="repository" class="button" href="#">Ver repositório</a>
+      </nav>
+    </header>
+
+    <main>
+      <section class="notice" aria-label="Informação de acesso">
+        <strong>Acesso aberto.</strong> A leitura não exige conta. Para abrir ou comentar tarefas, use uma conta GitHub.
+      </section>
+      <p id="status" class="status" role="status">Carregando quadro…</p>
+      <section id="board" class="board" aria-label="Quadro de tarefas"></section>
+    </main>
+
+    <footer>
+      <p>Fonte de verdade: GitHub Issues. Não publique dados pessoais neste quadro.</p>
+    </footer>
+    <script src="assets/config.js"></script>
+    <script src="assets/app.js"></script>
+  </body>
+</html>
