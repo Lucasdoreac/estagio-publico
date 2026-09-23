@@ -1,5 +1,5 @@
 window.ESTAGIO_CONFIG = {
-  owner: "SEU_USUARIO_GITHUB",
+  owner: "Lucasdoreac",
   repo: "estagio-publico",
   title: "Quadro público do estágio",
   description: "Acompanhe tarefas, entregas e decisões da squad.",
