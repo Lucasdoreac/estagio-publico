@@ -14,7 +14,8 @@ status que o quadro (index.html) já sabe mostrar:
     PR fechado sem merge                      -> status:a-fazer      (volta para a fila)
 
 E um cartão por pendência de data/pendencias.json (decisões e dados que dependem
-de pessoas) em status:ideia; some (fecha) quando sai da lista.
+de pessoas) em status:ideia. Resolvida = alguém FECHA o cartão no quadro (vai para
+Concluído e não reabre) ou ela sai da lista.
 
 Só lê a org e só escreve issues/rótulos deste repositório. Sem nomes: o cartão
 mostra id, título, issues que fecha e o resultado da suíte medido localmente.
@@ -152,6 +153,12 @@ def main():
     sincroniza_pendencias(este, token, args.dry_run)
 
 
+def fechada_por_pessoa(este, issue, token):
+    """Fechada por alguém no quadro (não por esta Action)."""
+    quem = (call("GET", f"/repos/{este}/issues/{issue['number']}", token).get("closed_by") or {})
+    return quem.get("type") != "Bot" and not quem.get("login", "").endswith("[bot]")
+
+
 def sincroniza_pendencias(este, token, dry_run):
     caminho = ROOT / "data" / "pendencias.json"
     if not caminho.exists():
@@ -167,6 +174,17 @@ def sincroniza_pendencias(este, token, dry_run):
                    "Cartão mantido pela Action `sync-quadro` a partir de `data/pendencias.json`._")
         desejado = {"title": titulo, "body": corpo_p, "labels": [MARCA_PEND, "status:ideia"], "state": "open"}
         atual = atuais.pop(p["id"], None)
+        if atual is not None and atual["state"] == "closed" and fechada_por_pessoa(este, atual, token):
+            # Alguém fechou o cartão no quadro: a pendência foi resolvida. Não reabre.
+            rotulos = sorted(r["name"] for r in atual["labels"])
+            if rotulos != sorted([MARCA_PEND, "status:concluido"]):
+                print(f"{p['id']}: resolvida no quadro, vai para Concluído")
+                if not dry_run:
+                    call("PATCH", f"/repos/{este}/issues/{atual['number']}", token,
+                         {"labels": [MARCA_PEND, "status:concluido"]})
+            else:
+                print(f"{p['id']}: resolvida no quadro")
+            continue
         if atual is None:
             print(f"{p['id']}: cria cartão de pendência")
             if not dry_run:

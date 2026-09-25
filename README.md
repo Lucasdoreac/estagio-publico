@@ -27,11 +27,14 @@ demanda. `scripts/sync_quadro.py` mantém uma issue por item:
 
 | Coluna | O que entra |
 |---|---|
-| Ideias | Pendências que dependem de decisão ou dado de pessoas (fecham quando resolvidas) |
+| Ideias | Pendências que dependem de decisão ou dado de pessoas. Resolveu? **Feche o cartão**: vai para Concluído e não volta |
 | A fazer | PRs da fila esperando o anterior do mesmo repositório |
 | Em andamento | Próximo PR de cada repositório (pronto e testado) ou PR com mudança pedida na revisão |
 | Em revisão | PR aberto na organização |
 | Concluído | PR aceito (merge) e pendência resolvida |
+
+Quando um PR recebe merge, o próximo do mesmo repositório é aberto automaticamente
+(fora deste repositório, pelo agendamento que também publica `data/`).
 
 O quadro lê as issues direto da API ao abrir a página. Teste local sem escrever
 nada:
