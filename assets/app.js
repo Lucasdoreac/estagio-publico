@@ -13,6 +13,24 @@ function escapeHtml(value = "") {
   return element.innerHTML;
 }
 
+// Resumo do cartão sem cortar no meio: nos cartões da fila, as linhas "**Campo:** valor"
+// que interessam; nos demais (pendências, tarefas), o primeiro parágrafo inteiro.
+const CAMPOS = ["Situação", "Depende de", "Suíte na ponta do PR (medida localmente)"];
+const ROTULO = { "Suíte na ponta do PR (medida localmente)": "Suíte" };
+
+function resumo(body) {
+  if (!body) return "";
+  const texto = body.replace(/\r/g, "");
+  const campos = Object.fromEntries([...texto.matchAll(/\*\*([^*]+):\*\*\s*(.+)/g)].map((m) => [m[1], m[2]]));
+  if (Object.keys(campos).length) {
+    return CAMPOS.filter((c) => campos[c])
+      .map((c) => `<p><b>${escapeHtml(ROTULO[c] || c)}:</b> ${escapeHtml(campos[c].replace(/[*_`]/g, ""))}</p>`)
+      .join("");
+  }
+  const primeiro = texto.split(/\n\s*\n/)[0].replace(/[*_`]/g, "").trim();
+  return primeiro ? `<p>${escapeHtml(primeiro)}</p>` : "";
+}
+
 function render(issues) {
   const board = document.querySelector("#board");
   board.innerHTML = config.columns.map((column) => {
@@ -21,7 +39,7 @@ function render(issues) {
       <a class="card" href="${issue.html_url}" target="_blank" rel="noreferrer">
         <small>#${issue.number}</small>
         <h3>${escapeHtml(issue.title)}</h3>
-        ${issue.body ? `<p>${escapeHtml(issue.body.replace(/[*_`]/g, "")).slice(0, 150)}</p>` : ""}
+        ${resumo(issue.body)}
       </a>`).join("") : `<p class="empty">${escapeHtml(column.hint || "Sem tarefas.")}</p>`;
     const hint = cards.length && column.hint ? `<p class="hint">${escapeHtml(column.hint)}</p>` : "";
     return `<article class="column"><h2>${column.title} <span class="count">${cards.length}</span></h2>${hint}${items}</article>`;

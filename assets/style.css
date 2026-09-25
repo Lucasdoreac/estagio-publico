@@ -24,7 +24,9 @@ main, footer { max-width: 1320px; margin: 0 auto; padding: 1.5rem; }
 .card { display: block; margin: .7rem 0; padding: 1rem; border-radius: .6rem; color: #172033; background: white; box-shadow: 0 1px 2px #17203318; text-decoration: none; }
 .card:hover { outline: 2px solid #60a5fa; }
 .card h3 { margin: 0 0 .5rem; font-size: .98rem; }
-.card p, .card small { margin: 0; color: #475569; }
+.card p, .card small { margin: 0; color: #475569; overflow-wrap: anywhere; }
+.card p + p { margin-top: .35rem; }
+.card p { font-size: .88rem; line-height: 1.4; }
 .empty { color: #64748b; font-size: .9rem; }
 footer { color: #64748b; font-size: .9rem; }
 @media (max-width: 760px) { .hero, .callout { align-items: start; flex-direction: column; } .hero { padding: 2rem 1.5rem; } .board { grid-template-columns: repeat(5, minmax(260px, 1fr)); } }
