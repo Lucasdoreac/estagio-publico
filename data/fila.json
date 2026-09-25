@@ -171,6 +171,26 @@
       "suite": "api:verde (112 passed)"
     },
     {
+      "id": "PS-12",
+      "repo": "python-services",
+      "titulo": "Segurança: só quem criou o evento pode alterá-lo ou enviá-lo",
+      "fecha": [],
+      "depende": [
+        "PS-11"
+      ],
+      "suite": "api:verde (116 passed)"
+    },
+    {
+      "id": "PS-13",
+      "repo": "python-services",
+      "titulo": "Segurança: reserva de sala (POST /reservations) só para o evento de quem está logado",
+      "fecha": [],
+      "depende": [
+        "PS-12"
+      ],
+      "suite": "api:verde (117 passed)"
+    },
+    {
       "id": "IU-1",
       "repo": "interfaces-usuario",
       "titulo": "Atualização completa: package-lock, Node 24, Vite + Vitest, React 19 e CI",

@@ -29,6 +29,11 @@
       "id": "D-6",
       "titulo": "Alocação",
       "texto": "as telas da Coordenação são maquete (\"Salvar\" não grava; cursos fixos no código); falta desenhar o modelo da grade."
+    },
+    {
+      "id": "D-7",
+      "titulo": "Alocação continua?",
+      "texto": "O projeto parou em março de 2025 (telas da Coordenação em maquete; a tabela da grade existe, mas nada grava nela). Se continua: terminar a grade sobre Turma_Disciplina (com \"tarde\" e sábado) e integrar ao Reservas pelo catálogo, e a tela de ofertas vira só leitura. Se não: a tela de ofertas passa a ser a fonte dos dias das aulas e o repositório pode ser arquivado."
     }
   ]
 }
