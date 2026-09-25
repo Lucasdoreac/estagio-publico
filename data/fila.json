@@ -161,6 +161,16 @@
       "suite": "api:verde (110 passed)"
     },
     {
+      "id": "PS-11",
+      "repo": "python-services",
+      "titulo": "Toda rota da API documentada no Swagger (15 rotas e métodos que faltavam)",
+      "fecha": [],
+      "depende": [
+        "PS-10"
+      ],
+      "suite": "api:verde (112 passed)"
+    },
+    {
       "id": "IU-1",
       "repo": "interfaces-usuario",
       "titulo": "Atualização completa: package-lock, Node 24, Vite + Vitest, React 19 e CI",
