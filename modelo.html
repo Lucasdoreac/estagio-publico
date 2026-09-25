@@ -30,9 +30,9 @@
   <body>
     <header class="hero">
       <div>
-        <p class="eyebrow">MODELO PÚBLICO DO PRODUTO</p>
+        <p class="eyebrow">MODELO DO SISTEMA</p>
         <h1>Salas e laboratórios da UDF</h1>
-        <p>Especificação inicial para reserva, alocação e gestão de espaços acadêmicos.</p>
+        <p>Como o sistema de reservas é hoje, o que falta e o que ainda é ideia.</p>
       </div>
       <nav aria-label="Navegação">
         <a class="button" href="index.html">Quadro de tarefas</a>
@@ -43,13 +43,12 @@
     </header>
 
     <main class="spec">
-      <p class="lead">Este documento transforma a demonstração pública em uma proposta completa de produto. Ele preserva o que já foi confirmado no caderno do estágio e identifica como proposta tudo que ainda precisa de aprovação da UDF.</p>
+      <p class="lead">Como o sistema de reservas é hoje, conferido no código dos repositórios da LabTechUDF, o que falta e o que ainda é só ideia. O que está marcado como <span class="tag no">IDEIA</span> não foi pedido nem validado pela UDF.</p>
 
-      <h2>Escopo e resultado esperado</h2>
+      <h2>Escopo confirmado</h2>
       <div class="grid">
-        <article class="panel"><span class="tag">CONFIRMADO</span><h3>Gestão de espaços</h3><p>O sistema deve gerenciar salas e laboratórios e permitir reserva e alocação.</p></article>
-        <article class="panel"><span class="tag">CONFIRMADO</span><h3>Uso institucional</h3><p>A solução deve ser utilizável no contexto da instituição e considerar ferramentas gratuitas ou abertas.</p></article>
-        <article class="panel"><span class="tag proposed">A VALIDAR</span><h3>Política operacional</h3><p>Quem reserva, quem aprova, prazos, prioridades e regras de recorrência dependem de decisão institucional.</p></article>
+        <article class="panel"><span class="tag">CONFIRMADO</span><h3>Gestão de espaços</h3><p>O sistema gerencia salas e laboratórios e permite reserva e alocação.</p></article>
+        <article class="panel"><span class="tag">CONFIRMADO</span><h3>Uso institucional</h3><p>Utilizável no contexto da instituição, com ferramentas gratuitas ou abertas.</p></article>
       </div>
 
       <h2 id="o-que-ja-existe">O que já existe (setembro de 2026)</h2>
@@ -70,65 +69,43 @@
       <h3>Como é construído hoje</h3>
       <p>Interface web em React; API em Python (Flask); banco MongoDB; entrada por link enviado ao e-mail institucional (@udf.edu.br), sem senha; catálogo de salas, cursos e turmas como serviço próprio (REST e GraphQL, com chave de acesso); PDF do pedido guardado em armazenamento compatível com S3. Nas mudanças em revisão (setembro de 2026), as dependências estão atualizadas e sem vulnerabilidades conhecidas.</p>
 
-      <h2>Pessoas e permissões</h2>
-      <table><thead><tr><th>Perfil</th><th>O que faz</th><th>O que pode aparecer publicamente</th></tr></thead><tbody>
-        <tr><td>Visitante</td><td>Consulta disponibilidade, regras e agenda publicada.</td><td>Espaço, data, horário e estado disponível/ocupado.</td></tr>
-        <tr><td>Solicitante</td><td>Pesquisa espaço, cria, altera ou cancela a própria solicitação.</td><td>Nenhum dado pessoal ou motivo da reserva.</td></tr>
-        <tr><td>Aprovador</td><td>Analisa solicitações e aplica a política da unidade.</td><td>Somente o estado consolidado da agenda.</td></tr>
-        <tr><td>Gestor de espaço</td><td>Configura capacidade, recursos, acessibilidade, bloqueios e manutenção.</td><td>Características do espaço e indisponibilidades genéricas.</td></tr>
-        <tr><td>Administrador</td><td>Gerencia perfis, unidades, auditoria e parâmetros.</td><td>Não publica dados de acesso nem histórico identificável.</td></tr>
+      <h2>Quem usa</h2>
+      <table><thead><tr><th>Papel</th><th>O que faz hoje</th></tr></thead><tbody>
+        <tr><td>Pessoa solicitante</td><td>Entra pelo link enviado ao e-mail institucional (@udf.edu.br), cria o evento em etapas, escolhe data, período e sala livre e acompanha seus eventos.</td></tr>
+        <tr><td>Coordenação do curso</td><td>Recebe por e-mail o pedido de palestra ou oficina e aprova, recusa ou pede mudança, por link de uso único.</td></tr>
+        <tr><td>Reitoria</td><td>Dá a aprovação final de palestras e oficinas; é avisada por e-mail das aulas e provas.</td></tr>
+        <tr><td>Quem marca os dias das aulas</td><td>Pessoas indicadas pela UDF (lista configurada no sistema) marcam o dia da semana de cada turma, para as aulas bloquearem as salas (em revisão).</td></tr>
+      </tbody></table>
+      <p>Não há conta de visitante, de gestor de espaço nem de administrador. O login não tem senha nem papéis: Coordenação e Reitoria agem pelos links dos e-mails.</p>
+
+      <h2>Caminho de um pedido</h2>
+      <div class="flow"><span>Rascunho</span><span class="arrow">→</span><span>Aguardando</span><span class="arrow">→</span><span>Aprovado ou recusado pela Coordenação</span><span class="arrow">→</span><span>Aprovado ou recusado pela Reitoria</span></div>
+      <p>Esse é o caminho de <b>palestra e oficina</b>. <b>Aula e prova</b> são aprovadas direto ao enviar, com aviso por e-mail à Reitoria. Se a Coordenação pedir mudança, o evento fica em <b>mudança pedida</b> e volta para a Coordenação quando a pessoa solicitante reenviar. A sala fica reservada desde o envio; um segundo pedido para a mesma sala e horário é recusado.</p>
+
+      <h2>Dados que o sistema guarda</h2>
+      <table><thead><tr><th>Dado</th><th>O que tem</th></tr></thead><tbody>
+        <tr><td>Evento</td><td>Tipo (palestra, oficina, aula, prova), título, descrição, curso, ODS, público-alvo, participantes, recursos, logo, organizador e estado.</td></tr>
+        <tr><td>Reserva</td><td>Sala, evento, início e fim.</td></tr>
+        <tr><td>Sala e campus</td><td>Número da sala e campus. O catálogo não tem capacidade, recursos nem acessibilidade.</td></tr>
+        <tr><td>Curso, disciplina, professor e oferta</td><td>Catálogo da UDF. A oferta (turma do semestre) tem sala, período e, quando marcado, os dias da semana.</td></tr>
+        <tr><td>Token de aprovação</td><td>Link de uso único enviado à Coordenação e à Reitoria.</td></tr>
       </tbody></table>
 
-      <h2>Jornada de reserva</h2>
-      <div class="flow"><span>Rascunho</span><span class="arrow">→</span><span>Solicitada</span><span class="arrow">→</span><span>Em análise</span><span class="arrow">→</span><span>Aprovada ou recusada</span><span class="arrow">→</span><span>Check-in, uso ou ausência</span><span class="arrow">→</span><span>Concluída</span></div>
-      <p>Cancelamento, remarcação e bloqueio podem ocorrer antes do uso. Toda mudança produz um evento de auditoria com data, responsável e motivo operacional.</p>
+      <h2>Pendências que dependem de pessoas</h2>
+      <p>Hospedagem, coordenador de cada curso, calendário acadêmico, painel de pendências para Coordenação e Reitoria, substituto do armazenamento de arquivos e o modelo de grade da Alocação de Professores. Cada uma está na coluna <b>Ideias</b> do <a href="index.html">quadro</a> até ser resolvida.</p>
 
-      <h2>Casos que o sistema precisa resolver</h2>
+      <h2>Ideias ainda sem decisão</h2>
       <div class="grid">
-        <article class="panel"><h3>Pesquisa de disponibilidade</h3><p>Filtrar por campus, capacidade, recursos, acessibilidade, data e horário; mostrar alternativas compatíveis.</p></article>
-        <article class="panel"><h3>Reserva avulsa e recorrente</h3><p>Solicitar um encontro único ou uma série. A série deve validar cada ocorrência e informar conflitos pontuais.</p></article>
-        <article class="panel"><h3>Conflito e lista de espera</h3><p>Impedir dupla ocupação, sugerir outros horários e, se adotada, registrar prioridade e posição da espera.</p></article>
-        <article class="panel"><h3>Aprovação</h3><p>Aprovar automaticamente quando a regra permitir ou encaminhar para uma unidade responsável.</p></article>
-        <article class="panel"><h3>Bloqueio de espaço</h3><p>Suspender agenda por manutenção, evento institucional, segurança ou indisponibilidade técnica.</p></article>
-        <article class="panel"><h3>Realocação urgente</h3><p>Encontrar alternativas quando uma sala é bloqueada depois de uma reserva confirmada.</p></article>
-        <article class="panel"><h3>Check-in e ausência</h3><p>Registrar chegada por mecanismo definido pela UDF e liberar o espaço conforme a regra de não comparecimento.</p></article>
-        <article class="panel"><h3>Relatórios</h3><p>Medir ocupação, conflitos, ausências, recursos mais solicitados e capacidade ociosa, com dados agregados.</p></article>
+        <article class="panel"><span class="tag no">IDEIA</span><h3>Filtros de sala</h3><p>Capacidade, recursos e acessibilidade: exigiriam cadastrar esses dados, que o catálogo não tem.</p></article>
+        <article class="panel"><span class="tag no">IDEIA</span><h3>Reserva recorrente</h3><p>Um pedido para uma série de datas.</p></article>
+        <article class="panel"><span class="tag no">IDEIA</span><h3>Cancelar e remarcar</h3><p>Pela própria pessoa solicitante, liberando a sala.</p></article>
+        <article class="panel"><span class="tag no">IDEIA</span><h3>Bloqueio e realocação</h3><p>Suspender uma sala (manutenção, evento institucional) e remanejar reservas afetadas.</p></article>
+        <article class="panel"><span class="tag no">IDEIA</span><h3>Agenda pública</h3><p>Disponibilidade das salas sem identificar quem reservou.</p></article>
+        <article class="panel"><span class="tag no">IDEIA</span><h3>Check-in, relatórios e auditoria por ação</h3><p>Presença, ocupação agregada e trilha de quem mudou o quê.</p></article>
       </div>
 
-      <h2>Regras operacionais propostas</h2>
-      <div class="grid">
-        <article class="panel"><span class="tag proposed">A VALIDAR</span><h3>Conflitos</h3><p>Uma reserva aprovada ocupa um único espaço durante um intervalo sem sobreposição. Bloqueios institucionais têm precedência.</p></article>
-        <article class="panel"><span class="tag proposed">A VALIDAR</span><h3>Prioridade</h3><p>Atividades acadêmicas obrigatórias, necessidade de laboratório, acessibilidade e maior adequação de capacidade devem orientar a fila.</p></article>
-        <article class="panel"><span class="tag proposed">A VALIDAR</span><h3>Antecedência</h3><p>Definir janelas mínimas e máximas para pedidos, cancelamento e aprovação, por tipo de espaço e unidade.</p></article>
-        <article class="panel"><span class="tag proposed">A VALIDAR</span><h3>Transparência</h3><p>A agenda pública mostra disponibilidade. Identidade do solicitante, finalidade detalhada e contatos ficam no ambiente autenticado.</p></article>
-      </div>
-
-      <h2>Dados que sustentam o produto</h2>
-      <table><thead><tr><th>Entidade</th><th>Informações essenciais</th></tr></thead><tbody>
-        <tr><td>Espaço</td><td>Campus, localização, tipo, capacidade, recursos, acessibilidade, responsável e estado.</td></tr>
-        <tr><td>Faixa de horário</td><td>Início, fim, fuso, período letivo e regras de funcionamento.</td></tr>
-        <tr><td>Reserva e série</td><td>Espaço, solicitante autenticado, intervalo, estado, recorrência e justificativa interna.</td></tr>
-        <tr><td>Bloqueio</td><td>Espaço, período, categoria e motivo operacional.</td></tr>
-        <tr><td>Auditoria</td><td>Ação, momento, responsável, origem e mudança registrada.</td></tr>
-      </tbody></table>
-
-      <h2>Arquitetura aberta e segura</h2>
-      <div class="grid">
-        <article class="panel"><h3>Camada pública</h3><p>GitHub Pages pode publicar o cronograma do projeto, documentação, agenda sem identificação e decisões abertas.</p></article>
-        <article class="panel"><h3>Aplicação autenticada</h3><p>Reservas, aprovações e auditoria exigem servidor, banco de dados e autenticação institucional. Uma página estática não é suficiente.</p></article>
-        <article class="panel"><h3>Código aberto</h3><p>Repositório público, licenças explícitas, issues, documentação de implantação e dados de demonstração permitem colaboração sem expor dados reais.</p></article>
-      </div>
-
-      <h2>Decisões necessárias antes do MVP</h2>
-      <div class="decision"><strong>A UDF precisa validar:</strong> público atendido; catálogo inicial de espaços; política de prioridade; fluxo e responsáveis por aprovação; limites de recorrência; regra de ausência; autenticação institucional; integração com calendário; política de retenção de dados e responsáveis pela operação.</div>
-
-      <h2>Roteiro de entrega</h2>
-      <table><thead><tr><th>Etapa</th><th>Entrega verificável</th></tr></thead><tbody>
-        <tr><td>1. Descoberta</td><td>Políticas aprovadas, catálogo de espaços e jornadas validadas com os responsáveis.</td></tr>
-        <tr><td>2. MVP</td><td>Consulta de disponibilidade, pedido avulso, prevenção de conflito, aprovação e agenda autenticada.</td></tr>
-        <tr><td>3. Operação</td><td>Recorrência, bloqueios, notificações, auditoria, relatórios agregados e acessibilidade verificada.</td></tr>
-        <tr><td>4. Evolução</td><td>Integrações institucionais, lista de espera, check-in e realocação assistida.</td></tr>
-      </tbody></table>
+      <h2>Privacidade</h2>
+      <p>Este site e o quadro não mostram nomes, e-mails nem contas. No sistema, só entra quem tem e-mail institucional; os links de aprovação valem uma vez; tokens e chaves não vão para os registros técnicos (logs).</p>
     </main>
     <footer><p>Documento público de trabalho. Acompanhe e proponha ajustes no <a href="https://github.com/Lucasdoreac/estagio-publico/issues">repositório do estágio</a>.</p></footer>
   </body>

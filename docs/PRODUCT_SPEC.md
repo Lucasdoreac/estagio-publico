@@ -1,24 +1,13 @@
-# Especificação do produto: reserva e alocação de espaços UDF
+# Sistema de reservas de salas da UDF: como é, o que falta e o que é ideia
 
-## Propósito
+Conferido no código dos repositórios da LabTechUDF. O que está em **Ideias ainda
+sem decisão** não foi pedido nem validado pela UDF. Versão para leitura:
+[modelo.html](../modelo.html).
 
-Disponibilizar uma aplicação institucional para pesquisar, reservar, aprovar e
-alocar salas e laboratórios, com transparência sobre disponibilidade e proteção
-dos dados das pessoas que solicitam os espaços.
+## Escopo confirmado
 
-## Premissas confirmadas
-
-- O produto abrange gestão de salas e laboratórios.
-- Deve permitir reserva e alocação de espaços.
-- Deve ser utilizável na instituição e priorizar ferramentas gratuitas ou de
-  código aberto quando isso for viável.
-
-## Limite da demonstração pública
-
-O GitHub Pages deste repositório é a vitrine pública do projeto: documentação,
-agenda não identificável e planejamento por Issues. Reservas reais, aprovação,
-dados de contato, autenticação e auditoria precisam de uma aplicação com API e
-banco de dados próprios.
+- O sistema gerencia salas e laboratórios e permite reserva e alocação.
+- Utilizável no contexto da instituição, com ferramentas gratuitas ou abertas.
 
 ## Estado atual (setembro de 2026)
 
@@ -53,67 +42,59 @@ por link enviado ao e-mail institucional (@udf.edu.br), sem senha; catálogo de
 salas, cursos e turmas como serviço próprio (REST e GraphQL, com chave de acesso);
 PDF do pedido em armazenamento compatível com S3.
 
-## Requisitos funcionais
+## Quem usa
 
-1. Cadastrar espaços com campus, localização, tipo, capacidade, equipamentos,
-   características de acessibilidade, horários de funcionamento e estado.
-2. Pesquisar disponibilidade por data, horário, campus, capacidade, tipo,
-   recurso e acessibilidade.
-3. Criar solicitações avulsas e recorrentes.
-4. Detectar sobreposição de reservas, bloqueios e indisponibilidades.
-5. Oferecer alternativas compatíveis quando houver conflito.
-6. Encaminhar solicitações para aprovação conforme regra configurável.
-7. Permitir cancelar, remarcar e acompanhar o estado da solicitação.
-8. Bloquear espaços para manutenção, segurança ou evento institucional.
-9. Apoiar realocação de reservas afetadas por bloqueio posterior.
-10. Registrar check-in e ausência quando a política institucional o adotar.
-11. Produzir relatórios agregados de ocupação, conflitos, ausências e capacidade.
-12. Registrar auditoria das mudanças relevantes.
+- **Pessoa solicitante:** entra pelo link enviado ao e-mail institucional
+  (@udf.edu.br), cria o evento em etapas, escolhe data, período e sala livre e
+  acompanha seus eventos.
+- **Coordenação do curso:** recebe o pedido de palestra ou oficina por e-mail e
+  aprova, recusa ou pede mudança, por link de uso único.
+- **Reitoria:** aprovação final de palestras e oficinas; é avisada das aulas e
+  provas.
+- **Quem marca os dias das aulas:** pessoas indicadas pela UDF (lista configurada
+  no sistema) marcam o dia da semana de cada turma (em revisão).
 
-## Estados
+Não há conta de visitante, gestor de espaço nem administrador. O login não tem
+senha nem papéis: Coordenação e Reitoria agem pelos links dos e-mails.
 
-`rascunho → solicitada → em análise → aprovada | recusada | cancelada`
+## Caminho de um pedido
 
-Após o horário reservado, uma reserva aprovada pode terminar como `utilizada`,
-`ausência` ou `concluída`, conforme a política de check-in escolhida.
+`rascunho → aguardando → aprovado | recusado pela Coordenação → aprovado | recusado pela Reitoria`
 
-## Política a decidir com a UDF
+Esse é o caminho de palestra e oficina. Aula e prova são aprovadas direto ao
+enviar, com aviso à Reitoria. Com pedido de mudança, o evento fica em
+`mudança pedida` e volta para a Coordenação quando é reenviado. A sala fica
+reservada desde o envio; um segundo pedido para a mesma sala e horário é recusado.
 
-- Quem pode solicitar e quem pode aprovar cada categoria de espaço.
-- Ordem de prioridade entre aula, atividade acadêmica, evento, laboratório,
-  acessibilidade e outros usos.
-- Antecedência mínima e máxima, prazo de cancelamento e limites de recorrência.
-- Situações que dispensam aprovação manual.
-- Critério para liberar um espaço quando não há check-in.
-- Período de retenção dos dados e responsáveis pela administração.
+## Dados que o sistema guarda
 
-## Segurança e privacidade
+- **Evento:** tipo (palestra, oficina, aula, prova), título, descrição, curso, ODS,
+  público-alvo, participantes, recursos, logo, organizador e estado.
+- **Reserva:** sala, evento, início e fim.
+- **Sala e campus:** número da sala e campus. Sem capacidade, recursos nem
+  acessibilidade no catálogo.
+- **Curso, disciplina, professor e oferta:** catálogo da UDF; a oferta tem sala,
+  período e, quando marcados, os dias da semana.
+- **Token de aprovação:** link de uso único para Coordenação e Reitoria.
 
-- A agenda pública só apresenta disponibilidade e informação operacional sem
-  identificação de solicitantes.
-- Reservas e dados de usuários exigem autenticação e autorização por perfil.
-- Senhas, tokens e dados pessoais não entram no repositório, Issues ou GitHub
-  Pages.
-- Cada criação, aprovação, cancelamento, bloqueio e realocação deve gerar um
-  evento de auditoria.
+## Pendências que dependem de pessoas
 
-## Arquitetura de referência
+Hospedagem; coordenador de cada curso; calendário acadêmico; painel de pendências
+para Coordenação e Reitoria; substituto do armazenamento de arquivos; modelo de
+grade da Alocação de Professores. Ficam na coluna Ideias do quadro até serem
+resolvidas.
 
-1. Portal público estático: GitHub Pages para documentação, backlog e agenda
-   anonimizada.
-2. Aplicação autenticada: interface para solicitantes, aprovadores e gestores.
-3. API: aplica autorização, regras de conflito, filas e notificações.
-4. Banco de dados: hoje MongoDB. Espaços, horários, reservas, séries, bloqueios e
-   auditoria continuam sendo as entidades necessárias, independentemente do banco.
-5. Integrações futuras: identidade institucional e calendário, somente após
-   requisitos e autorização definidos.
+## Ideias ainda sem decisão
 
-## Critérios de aceite do MVP
+- Filtros de capacidade, recursos e acessibilidade (exigem cadastrar esses dados).
+- Reserva recorrente.
+- Cancelar e remarcar pela própria pessoa solicitante.
+- Bloqueio de sala e realocação de reservas afetadas.
+- Agenda pública de disponibilidade, sem identificar quem reservou.
+- Check-in, relatórios de ocupação e trilha de auditoria por ação.
 
-- Um espaço disponível pode ser encontrado pelos filtros fundamentais.
-- Uma solicitação válida não cria uma dupla ocupação.
-- O aprovador recebe somente as solicitações sob sua responsabilidade.
-- Uma reserva aprovada aparece na agenda autenticada e na disponibilidade
-  pública sem expor a pessoa solicitante.
-- Cancelamento e bloqueio atualizam a disponibilidade e deixam auditoria.
-- Os fluxos principais funcionam com teclado e informações acessíveis.
+## Privacidade
+
+O site e o quadro não mostram nomes, e-mails nem contas. No sistema, só entra
+quem tem e-mail institucional; os links de aprovação valem uma vez; tokens e
+chaves não vão para os logs.

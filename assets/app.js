@@ -1,5 +1,4 @@
 const config = window.ESTAGIO_CONFIG;
-const configured = !config.owner.startsWith("SEU_");
 const repoUrl = `https://github.com/${config.owner}/${config.repo}`;
 
 document.title = config.title;
@@ -48,12 +47,6 @@ async function inQueueOrder(issues) {
 
 async function loadBoard() {
   const status = document.querySelector("#status");
-  if (!configured) {
-    const response = await fetch("data/board.json");
-    render((await response.json()).issues);
-    status.textContent = "Modo de demonstração: configure assets/config.js para conectar as issues públicas do repositório.";
-    return;
-  }
   try {
     const response = await fetch(`https://api.github.com/repos/${config.owner}/${config.repo}/issues?state=all&per_page=100`);
     if (!response.ok) throw new Error(`GitHub respondeu ${response.status}`);

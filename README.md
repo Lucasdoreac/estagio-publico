@@ -1,58 +1,41 @@
 # Estágio Público
 
-Um quadro público, sem login, para acompanhar o trabalho da squad. O site usa
-issues públicas do GitHub como fonte de verdade e as organiza por rótulos de
-status.
+Vitrine pública, sem login, do trabalho de estágio no sistema de reservas de salas
+da UDF (repositórios da [LabTechUDF](https://github.com/LabTechUDF)). Nada aqui
+identifica pessoas: sem nomes, e-mails ou contas.
 
-O site também publica o [modelo do sistema de reserva e alocação de salas e
-laboratórios](modelo.html), com os casos de uso, regras propostas, limites de
-privacidade e decisões que ainda dependem de validação. A versão detalhada para
-implementação está em [docs/PRODUCT_SPEC.md](docs/PRODUCT_SPEC.md).
+Site: https://lucasdoreac.github.io/estagio-publico/
 
-## Como funciona
+| Página | O que mostra | De onde vem |
+|---|---|---|
+| [Quadro](index.html) | Cada entrega (PR) e cada pendência, por situação | Issues deste repositório, mantidas pela Action `sync-quadro` |
+| [Modelo do sistema](modelo.html) | Como o sistema é hoje, o que falta e o que é só ideia | Conferido no código; versão em texto: [docs/PRODUCT_SPEC.md](docs/PRODUCT_SPEC.md) |
+| [Evidências de testes](evidencias.html) | Suíte de testes medida na versão final de cada entrega | `data/fila.json` + quadro |
 
-- Pessoas podem acompanhar o quadro no GitHub Pages sem uma conta GitHub.
-- Quem tem conta GitHub pode abrir uma solicitação pela página **Nova tarefa**.
-- Membros da squad administram o trabalho no próprio GitHub: issues, comentários,
-  rótulos, marcos e pull requests.
-- O site apenas lê issues públicas. Ele não armazena dados de participantes,
-  contatos ou credenciais.
+## Como o quadro se atualiza
 
-## Preparar o repositório
+O trabalho vai para a organização como uma fila de PRs, feitos a partir de um
+fork. `data/fila.json` lista a fila (id, repositório, título, issues que fecha,
+dependências e o resultado da suíte medido em container limpo) e
+`data/pendencias.json`, o que depende de decisão ou dado de pessoas. Os dois são
+gerados fora deste repositório e publicados aqui.
 
-1. Crie um repositório público chamado `estagio-publico`.
-2. Em `assets/config.js`, troque `owner` e `repo` pelos valores do repositório.
-3. Os rótulos `status:ideia`, `status:a-fazer`, `status:em-andamento`,
-   `status:em-revisao` e `status:concluido` são criados pela Action
-   `sync-quadro` na primeira execução.
-4. Ative GitHub Pages em **Settings → Pages → GitHub Actions**.
+A Action `.github/workflows/sync-quadro.yml` (mesmo desenho do
+[CoOps](https://github.com/LabTechUDF/CoOps): Action agendada + `GITHUB_TOKEN` +
+API pública do GitHub) roda a cada 6 horas, a cada mudança nesses arquivos e sob
+demanda. `scripts/sync_quadro.py` mantém uma issue por item:
 
-Cada push para `main` publica o site em `https://<owner>.github.io/<repo>/`.
+| Coluna | O que entra |
+|---|---|
+| Ideias | Pendências que dependem de decisão ou dado de pessoas (fecham quando resolvidas) |
+| A fazer | PRs da fila esperando o anterior do mesmo repositório |
+| Em andamento | Próximo PR de cada repositório (pronto e testado) ou PR com mudança pedida na revisão |
+| Em revisão | PR aberto na organização |
+| Concluído | PR aceito (merge) e pendência resolvida |
 
-## Automação: cartões dos PRs
-
-Mesmo desenho do [CoOps](https://github.com/LabTechUDF/CoOps): uma GitHub Action
-agendada lê a API pública do GitHub com o `GITHUB_TOKEN` e grava o resultado no
-próprio repositório.
-
-- `data/fila.json` lista os PRs planejados para os repositórios da LabTechUDF
-  (id, repositório, título, issues que fecha, dependências e o resultado da suíte
-  medido localmente). Sem nomes nem contatos.
-- `.github/workflows/sync-quadro.yml` roda a cada 6 horas, a cada mudança na fila
-  e sob demanda. Para cada item, `scripts/sync_quadro.py` procura o PR na org e
-  mantém um cartão (issue com o rótulo `fila-pr`):
-  sem PR → **A fazer**; PR aberto → **Em revisão** (com link); PR aceito →
-  **Concluído** (issue fechada); PR fechado sem merge → volta para **A fazer**.
-- O quadro lê as issues direto da API ao abrir a página: não precisa republicar.
-- Teste local sem escrever nada:
-  `GITHUB_REPOSITORY=<dono>/estagio-publico GITHUB_REPOSITORY_OWNER=<dono> python scripts/sync_quadro.py --dry-run`.
+O quadro lê as issues direto da API ao abrir a página. Teste local sem escrever
+nada:
+`GH_TOKEN=$(gh auth token) GITHUB_REPOSITORY=<dono>/estagio-publico GITHUB_REPOSITORY_OWNER=<dono> python scripts/sync_quadro.py --dry-run`.
 
 O GitHub desliga Actions agendadas de repositório público sem commits por 60
-dias; um push na fila (ou "Run workflow") religa.
-
-## Limites deliberados
-
-GitHub Pages é estático: ele não substitui permissões, fluxos privados,
-automação interna ou notificações do Jira. Para um estágio público isso é uma
-vantagem: não há contas de alunos nem dados pessoais no quadro. Use GitHub
-Issues para contribuição e GitHub Actions para automações abertas.
+dias; um push em `data/` (ou "Run workflow") religa.

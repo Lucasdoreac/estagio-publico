@@ -2,7 +2,7 @@ window.ESTAGIO_CONFIG = {
   owner: "Lucasdoreac",
   repo: "estagio-publico",
   title: "Quadro público do estágio",
-  description: "Acompanhe tarefas, entregas e decisões da squad.",
+  description: "Entregas do sistema de reservas da UDF, atualizadas automaticamente a partir dos pedidos de revisão (PRs) na organização.",
   columns: [
     { label: "status:ideia", title: "Ideias", hint: "Decisões e dados que dependem de pessoas; saem daqui quando resolvidos." },
     { label: "status:a-fazer", title: "A fazer", hint: "Entregas prontas na fila, esperando a anterior do mesmo repositório." },
