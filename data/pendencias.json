@@ -1,0 +1,34 @@
+{
+  "pendencias": [
+    {
+      "id": "D-1",
+      "titulo": "Onde roda",
+      "texto": "hospedagem, Mongo e armazenamento de produção; merge dos PRs."
+    },
+    {
+      "id": "D-2",
+      "titulo": "Coordenador por curso",
+      "texto": "o catálogo não tem; sem ele a aprovação não acha o destinatário."
+    },
+    {
+      "id": "D-3",
+      "titulo": "Calendário acadêmico",
+      "texto": "dias de todas as turmas (a tela de ofertas cobre à mão) e horários reais dos períodos; script de carga ainda fixa ANO=2024/SEMESTRE=2."
+    },
+    {
+      "id": "D-4",
+      "titulo": "Painel de pendências",
+      "texto": "para Coordenação e Reitoria (hoje só agem pelo link do e-mail); decidir se entra na v1."
+    },
+    {
+      "id": "D-5",
+      "titulo": "MinIO",
+      "texto": "repositório arquivado; escolher substituto."
+    },
+    {
+      "id": "D-6",
+      "titulo": "Alocação",
+      "texto": "as telas da Coordenação são maquete (\"Salvar\" não grava; cursos fixos no código); falta desenhar o modelo da grade."
+    }
+  ]
+}

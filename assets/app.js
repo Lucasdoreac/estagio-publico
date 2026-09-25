@@ -23,8 +23,9 @@ function render(issues) {
         <small>#${issue.number}</small>
         <h3>${escapeHtml(issue.title)}</h3>
         ${issue.body ? `<p>${escapeHtml(issue.body.replace(/[*_`]/g, "")).slice(0, 150)}</p>` : ""}
-      </a>`).join("") : '<p class="empty">Sem tarefas.</p>';
-    return `<article class="column"><h2>${column.title} <span class="count">${cards.length}</span></h2>${items}</article>`;
+      </a>`).join("") : `<p class="empty">${escapeHtml(column.hint || "Sem tarefas.")}</p>`;
+    const hint = cards.length && column.hint ? `<p class="hint">${escapeHtml(column.hint)}</p>` : "";
+    return `<article class="column"><h2>${column.title} <span class="count">${cards.length}</span></h2>${hint}${items}</article>`;
   }).join("");
 }
 

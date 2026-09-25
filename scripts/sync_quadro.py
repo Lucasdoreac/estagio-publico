@@ -6,10 +6,15 @@ pública do GitHub com o GITHUB_TOKEN e grava o resultado no próprio repositór
 Aqui o resultado são issues deste repo, uma por PR da fila, com o rótulo de
 status que o quadro (index.html) já sabe mostrar:
 
-    sem PR aberto ainda        -> status:a-fazer
-    PR aberto na org           -> status:em-revisao   (link no cartão)
-    PR aceito (merge)          -> status:concluido    (issue fechada)
-    PR fechado sem merge       -> status:a-fazer      (volta para a fila)
+    PR aceito (merge)                         -> status:concluido    (issue fechada)
+    PR aberto na org                          -> status:em-revisao   (link no cartão)
+    PR aberto com mudança pedida na revisão   -> status:em-andamento (sendo corrigido)
+    próximo do repo (anterior aberto/aceito)  -> status:em-andamento (pronto e testado; abre em seguida)
+    demais PRs da fila                        -> status:a-fazer      (esperam o anterior)
+    PR fechado sem merge                      -> status:a-fazer      (volta para a fila)
+
+E um cartão por pendência de data/pendencias.json (decisões e dados que dependem
+de pessoas) em status:ideia; some (fecha) quando sai da lista.
 
 Só lê a org e só escreve issues/rótulos deste repositório. Sem nomes: o cartão
 mostra id, título, issues que fecha e o resultado da suíte medido localmente.
@@ -28,9 +33,10 @@ import urllib.request
 API = "https://api.github.com"
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MARCA = "fila-pr"  # rótulo que identifica os cartões mantidos por este script
+MARCA_PEND = "pendencia"
 ROTULOS = {
     "status:ideia": "c5def5", "status:a-fazer": "fbca04", "status:em-andamento": "1d76db",
-    "status:em-revisao": "5319e7", "status:concluido": "0e8a16", MARCA: "ededed",
+    "status:em-revisao": "5319e7", "status:concluido": "0e8a16", MARCA: "ededed", MARCA_PEND: "ededed",
 }
 
 
@@ -50,14 +56,26 @@ def pr_da_fila(org, repo, dono_fork, pid, token):
     return prs[0] if prs else None  # o mais recente primeiro
 
 
-def estado(pr):
-    if pr is None:
-        return "status:a-fazer", "ainda não aberto"
-    if pr.get("merged_at"):
+def mudanca_pedida(org, repo, pr, token):
+    reviews = call("GET", f"/repos/{org}/{repo}/pulls/{pr['number']}/reviews?per_page=100", token)
+    ultimo = {}
+    for r in reviews:  # vale a última revisão de cada pessoa
+        ultimo[r["user"]["login"]] = r["state"]
+    return "CHANGES_REQUESTED" in ultimo.values()
+
+
+def estado(pr, anterior_andou, mudanca=False):
+    """anterior_andou: o PR anterior do mesmo repo já está aberto ou aceito (ou não há anterior)."""
+    if pr and pr.get("merged_at"):
         return "status:concluido", f"aceito em {pr['merged_at'][:10]}"
-    if pr["state"] == "open":
+    if pr and pr["state"] == "open":
+        if mudanca:
+            return "status:em-andamento", "aberto; a revisão pediu mudanças, sendo corrigido"
         return "status:em-revisao", "aberto, aguardando revisão"
-    return "status:a-fazer", "fechado sem merge; volta para a fila"
+    if anterior_andou:
+        return "status:em-andamento", "pronto e testado; é o próximo a abrir neste repositório"
+    nota = "fechado sem merge; volta para a fila" if pr else "espera o anterior do mesmo repositório"
+    return "status:a-fazer", nota
 
 
 def corpo(item, org, pr, situacao):
@@ -103,9 +121,15 @@ def main():
             break
         pagina += 1
 
+    ultimo_do_repo = {}  # repo -> PR (ou None) do item anterior da fila
     for item in dados["fila"]:
         pr = pr_da_fila(org, item["repo"], dono_fork, item["id"], token)
-        status, situacao = estado(pr)
+        anterior = ultimo_do_repo.get(item["repo"], "nenhum")
+        anterior_andou = anterior == "nenhum" or (anterior is not None and (
+            anterior.get("merged_at") or anterior["state"] == "open"))
+        mudanca = bool(pr and pr["state"] == "open" and mudanca_pedida(org, item["repo"], pr, token))
+        ultimo_do_repo[item["repo"]] = pr
+        status, situacao = estado(pr, anterior_andou, mudanca)
         titulo = f"[{item['id']}] {item['titulo']}"
         desejado = {"title": titulo, "body": corpo(item, org, pr, situacao), "labels": [MARCA, status],
                     "state": "closed" if status == "status:concluido" else "open"}
@@ -124,6 +148,41 @@ def main():
         print(f"{item['id']}: {'atualiza' if mudou else 'sem mudança'} ({status})")
         if mudou and not args.dry_run:
             call("PATCH", f"/repos/{este}/issues/{atual['number']}", token, desejado)
+
+    sincroniza_pendencias(este, token, args.dry_run)
+
+
+def sincroniza_pendencias(este, token, dry_run):
+    caminho = ROOT / "data" / "pendencias.json"
+    if not caminho.exists():
+        return
+    pendencias = json.loads(caminho.read_text())["pendencias"]
+    atuais = {}
+    for i in call("GET", f"/repos/{este}/issues?state=all&labels={MARCA_PEND}&per_page=100", token):
+        if i["title"].startswith("[") and "]" in i["title"]:
+            atuais[i["title"][1:i["title"].index("]")]] = i
+    for p in pendencias:
+        titulo = f"[{p['id']}] {p['titulo']}"
+        corpo_p = (f"{p['texto']}\n\n_Depende de decisão ou dado de pessoas; sai do quadro quando for resolvida. "
+                   "Cartão mantido pela Action `sync-quadro` a partir de `data/pendencias.json`._")
+        desejado = {"title": titulo, "body": corpo_p, "labels": [MARCA_PEND, "status:ideia"], "state": "open"}
+        atual = atuais.pop(p["id"], None)
+        if atual is None:
+            print(f"{p['id']}: cria cartão de pendência")
+            if not dry_run:
+                call("POST", f"/repos/{este}/issues", token, {k: desejado[k] for k in ("title", "body", "labels")})
+            continue
+        mudou = (atual["title"] != titulo or (atual["body"] or "") != corpo_p or atual["state"] != "open"
+                 or sorted(r["name"] for r in atual["labels"]) != sorted(desejado["labels"]))
+        print(f"{p['id']}: {'atualiza' if mudou else 'sem mudança'} (pendência)")
+        if mudou and not dry_run:
+            call("PATCH", f"/repos/{este}/issues/{atual['number']}", token, desejado)
+    for pid, atual in atuais.items():  # saiu da lista = resolvida
+        if atual["state"] == "open":
+            print(f"{pid}: pendência resolvida, fecha o cartão")
+            if not dry_run:
+                call("PATCH", f"/repos/{este}/issues/{atual['number']}", token,
+                     {"state": "closed", "labels": [MARCA_PEND, "status:concluido"]})
 
 
 if __name__ == "__main__":
