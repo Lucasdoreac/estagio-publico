@@ -24,19 +24,25 @@ banco de dados próprios.
 
 O sistema de reservas já existe nos repositórios da LabTechUDF e roda de ponta a
 ponta em ambiente de desenvolvimento, com testes automáticos. Ainda não está
-implantado para uso real: falta definir a hospedagem.
+implantado para uso real: falta definir a hospedagem. "Em revisão" = pronto e
+testado, aguardando aceitação no repositório da organização.
 
 - **Pesquisa de disponibilidade: parcial.** Salas livres por data e horário, busca
   por nome da sala. Filtros de capacidade, recursos e acessibilidade ainda não.
-- **Pedido avulso: existe.** Assistente em etapas, com rascunho salvo.
+- **Pedido avulso: existe.** Assistente em etapas, com rascunho salvo. Data ou
+  horário que já passou é recusado; a agenda só oferece períodos que ainda não
+  começaram (em revisão).
 - **Conflito: existe.** Um segundo pedido para a mesma sala e horário é recusado,
   inclusive com pedidos simultâneos.
 - **Aprovação: existe.** Palestra e oficina passam pela Coordenação e depois pela
   Reitoria, por link no e-mail de uso único; aula e prova são aprovadas direto,
-  com aviso por e-mail à Reitoria. A Coordenação pode pedir mudança; o formulário
-  para a pessoa solicitante atender o pedido está em revisão.
-- **Aulas do semestre ocupando salas: aguarda dados.** Passam a bloquear salas
-  assim que o calendário acadêmico informar o dia da semana de cada turma.
+  com aviso por e-mail à Reitoria. A Coordenação pode pedir mudança escrevendo o
+  que precisa mudar; a pessoa solicitante recebe a mensagem por e-mail, com o link
+  para editar e reenviar, e a vê na lista dos seus eventos (em revisão).
+- **Aulas do semestre ocupando salas: parcial.** Aula com dia da semana definido
+  bloqueia a sala. Tela para marcar os dias de cada turma, restrita a quem a UDF
+  indicar (em revisão); o calendário acadêmico com os dias de todas as turmas
+  ainda não foi entregue.
 - **Ainda não:** reserva recorrente, cancelamento e remarcação, bloqueio e
   realocação, check-in e ausência, relatórios.
 - **Auditoria: parcial.** Registros técnicos sem dados sensíveis; trilha por ação

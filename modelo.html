@@ -51,13 +51,13 @@
       </div>
 
       <h2 id="o-que-ja-existe">O que já existe (setembro de 2026)</h2>
-      <p>O sistema de reservas já existe nos repositórios da LabTechUDF e roda de ponta a ponta em ambiente de desenvolvimento, com testes automáticos. Ainda não está implantado para uso real: falta definir a hospedagem. A tabela compara os casos deste modelo com o que o código faz hoje.</p>
+      <p>O sistema de reservas já existe nos repositórios da LabTechUDF e roda de ponta a ponta em ambiente de desenvolvimento, com testes automáticos. Ainda não está implantado para uso real: falta definir a hospedagem. A tabela compara os casos deste modelo com o que o código faz hoje. "Em revisão" quer dizer pronto e testado, aguardando aceitação no repositório da organização; o quadro da página inicial acompanha cada entrega.</p>
       <table><thead><tr><th>Caso do modelo</th><th>Hoje</th></tr></thead><tbody>
         <tr><td>Pesquisa de disponibilidade</td><td><span class="tag proposed">PARCIAL</span> Salas livres por data e horário, busca por nome da sala. Filtros de capacidade, recursos e acessibilidade ainda não.</td></tr>
-        <tr><td>Pedido avulso</td><td><span class="tag ok">EXISTE</span> Assistente em etapas (tipo, dados, detalhes, logística, agenda, confirmação), com rascunho salvo.</td></tr>
+        <tr><td>Pedido avulso</td><td><span class="tag ok">EXISTE</span> Assistente em etapas (tipo, dados, detalhes, logística, agenda, confirmação), com rascunho salvo. Data ou horário que já passou é recusado, e a agenda só oferece períodos que ainda não começaram (em revisão).</td></tr>
         <tr><td>Conflito (sem dupla ocupação)</td><td><span class="tag ok">EXISTE</span> O sistema recusa um segundo pedido para a mesma sala e horário, inclusive com pedidos simultâneos.</td></tr>
-        <tr><td>Aprovação</td><td><span class="tag ok">EXISTE</span> Palestra e oficina passam pela Coordenação e depois pela Reitoria, por link no e-mail de uso único; aula e prova são aprovadas direto, com aviso por e-mail à Reitoria. A Coordenação pode pedir mudança; o formulário para a pessoa solicitante atender o pedido está em revisão.</td></tr>
-        <tr><td>Aulas do semestre ocupando salas</td><td><span class="tag proposed">AGUARDA DADOS</span> As aulas passam a bloquear salas assim que o calendário acadêmico informar o dia da semana de cada turma.</td></tr>
+        <tr><td>Aprovação</td><td><span class="tag ok">EXISTE</span> Palestra e oficina passam pela Coordenação e depois pela Reitoria, por link no e-mail de uso único; aula e prova são aprovadas direto, com aviso por e-mail à Reitoria. A Coordenação pode pedir mudança escrevendo o que precisa mudar: a pessoa solicitante recebe a mensagem por e-mail, com o link para editar e reenviar, e a vê na lista dos seus eventos (em revisão).</td></tr>
+        <tr><td>Aulas do semestre ocupando salas</td><td><span class="tag proposed">PARCIAL</span> Uma aula com dia da semana definido bloqueia a sala. Há uma tela para marcar os dias de cada turma, restrita a quem a UDF indicar (em revisão); o calendário acadêmico com os dias de todas as turmas ainda não foi entregue.</td></tr>
         <tr><td>Reserva recorrente</td><td><span class="tag no">AINDA NÃO</span></td></tr>
         <tr><td>Cancelamento e remarcação</td><td><span class="tag no">AINDA NÃO</span></td></tr>
         <tr><td>Bloqueio de espaço e realocação</td><td><span class="tag no">AINDA NÃO</span></td></tr>
