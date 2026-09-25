@@ -32,6 +32,16 @@
       "suite": "internal:verde (32 passed, 16 warnings) auth:verde (12 passed)"
     },
     {
+      "id": "SR-4",
+      "repo": "shared-resources",
+      "titulo": "Tela de ofertas: PATCH dos dias da semana de uma oferta",
+      "fecha": [],
+      "depende": [
+        "SR-3"
+      ],
+      "suite": "internal:verde (37 passed, 21 warnings) auth:verde (12 passed)"
+    },
+    {
       "id": "PS-1",
       "repo": "python-services",
       "titulo": "Atualização completa: suíte verde, Dockerfile, dependências e Python 3.13.15",
@@ -120,6 +130,17 @@
       "suite": "api:verde (103 passed)"
     },
     {
+      "id": "PS-9",
+      "repo": "python-services",
+      "titulo": "Tela de ofertas: rotas para marcar os dias da semana das aulas",
+      "fecha": [],
+      "depende": [
+        "PS-8",
+        "SR-4"
+      ],
+      "suite": "api:verde (110 passed)"
+    },
+    {
       "id": "IU-1",
       "repo": "interfaces-usuario",
       "titulo": "Atualização completa: package-lock, Node 24, Vite + Vitest, React 19 e CI",
@@ -190,6 +211,17 @@
         "PS-7"
       ],
       "suite": "front:verde (Tests  34 passed )"
+    },
+    {
+      "id": "IU-7",
+      "repo": "interfaces-usuario",
+      "titulo": "Tela de ofertas (/ofertas): dias da semana das aulas",
+      "fecha": [],
+      "depende": [
+        "IU-6",
+        "PS-9"
+      ],
+      "suite": "front:verde (Tests  39 passed )"
     },
     {
       "id": "ST-1",
