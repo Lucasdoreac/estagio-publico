@@ -151,6 +151,16 @@
       "suite": "api:verde (110 passed)"
     },
     {
+      "id": "PS-10",
+      "repo": "python-services",
+      "titulo": "Remove PDFs/evento.pdf e evento.typ, saída antiga sem uso",
+      "fecha": [],
+      "depende": [
+        "PS-9"
+      ],
+      "suite": "api:verde (110 passed)"
+    },
+    {
       "id": "IU-1",
       "repo": "interfaces-usuario",
       "titulo": "Atualização completa: package-lock, Node 24, Vite + Vitest, React 19 e CI",
