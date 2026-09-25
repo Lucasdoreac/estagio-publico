@@ -1,0 +1,159 @@
+{
+  "org": "LabTechUDF",
+  "fila": [
+    {
+      "id": "SR-1",
+      "repo": "shared-resources",
+      "titulo": "Atualização completa: dev local, Dockerfiles, dependências, Python 3.13.15, CI e graphene 3",
+      "fecha": [
+        "#24"
+      ],
+      "depende": [],
+      "suite": "internal:verde (13 passed, 8 warnings) auth:verde (4 passed)"
+    },
+    {
+      "id": "SR-2",
+      "repo": "shared-resources",
+      "titulo": "Offer.weekdays (dia da semana da aula) em REST e GraphQL",
+      "fecha": [],
+      "depende": [
+        "SR-1"
+      ],
+      "suite": "internal:verde (20 passed, 15 warnings) auth:verde (4 passed)"
+    },
+    {
+      "id": "SR-3",
+      "repo": "shared-resources",
+      "titulo": "Segurança: login fechado fora de dev, chave de API no catálogo, nada de segredo em log",
+      "fecha": [],
+      "depende": [
+        "SR-2"
+      ],
+      "suite": "internal:verde (32 passed, 16 warnings) auth:verde (12 passed)"
+    },
+    {
+      "id": "PS-1",
+      "repo": "python-services",
+      "titulo": "Atualização completa: suíte verde, Dockerfile, dependências e Python 3.13.15",
+      "fecha": [],
+      "depende": [],
+      "suite": "api:verde (21 passed)"
+    },
+    {
+      "id": "PS-2",
+      "repo": "python-services",
+      "titulo": "Aprovação: sem reserva dupla, sem token reutilizável, sem 500 por curso sem coordenador",
+      "fecha": [
+        "#65"
+      ],
+      "depende": [
+        "PS-1"
+      ],
+      "suite": "api:verde (34 passed)"
+    },
+    {
+      "id": "PS-3",
+      "repo": "python-services",
+      "titulo": "E-mail seguro em dev, login sem exceção fixa, /courses por id e aulas bloqueiam sala (#29)",
+      "fecha": [
+        "#29"
+      ],
+      "depende": [
+        "PS-2",
+        "SR-2"
+      ],
+      "suite": "api:verde (60 passed)"
+    },
+    {
+      "id": "PS-4",
+      "repo": "python-services",
+      "titulo": "Produção: sem host fixo, sem segredo em log, SERVER_SCHEME e chave do catálogo",
+      "fecha": [],
+      "depende": [
+        "PS-3"
+      ],
+      "suite": "api:verde (83 passed)"
+    },
+    {
+      "id": "PS-5",
+      "repo": "python-services",
+      "titulo": "CI: suíte roda com pytest puro a cada push e PR",
+      "fecha": [],
+      "depende": [
+        "PS-4"
+      ],
+      "suite": "api:verde (88 passed)"
+    },
+    {
+      "id": "PS-6",
+      "repo": "python-services",
+      "titulo": "POST /events/<id>/submit: reserva e envio do evento numa requisição só",
+      "fecha": [
+        "#64",
+        "#32"
+      ],
+      "depende": [
+        "PS-5"
+      ],
+      "suite": "api:verde (93 passed)"
+    },
+    {
+      "id": "IU-1",
+      "repo": "interfaces-usuario",
+      "titulo": "Atualização completa: package-lock, Node 24, Vite + Vitest, React 19 e CI",
+      "fecha": [],
+      "depende": [],
+      "suite": "front:verde (Tests  1 passed )"
+    },
+    {
+      "id": "IU-2",
+      "repo": "interfaces-usuario",
+      "titulo": "Login em dev mostra o link, confirmação legível, curso e logo corretos no rascunho",
+      "fecha": [
+        "#36",
+        "#37"
+      ],
+      "depende": [
+        "IU-1"
+      ],
+      "suite": "front:verde (Tests  12 passed )"
+    },
+    {
+      "id": "IU-3",
+      "repo": "interfaces-usuario",
+      "titulo": "Lint de volta e bugs do assistente: Enter no e-mail, Sim/Não, curso ao voltar, botão Sair, erros na tela",
+      "fecha": [
+        "#34",
+        "#35",
+        "#24",
+        "#25",
+        "#17"
+      ],
+      "depende": [
+        "IU-2"
+      ],
+      "suite": "front:verde (Tests  24 passed )"
+    },
+    {
+      "id": "IU-4",
+      "repo": "interfaces-usuario",
+      "titulo": "Confirmar usa POST /events/<id>/submit",
+      "fecha": [
+        "#64"
+      ],
+      "depende": [
+        "IU-3",
+        "PS-6"
+      ],
+      "suite": "front:verde (Tests  26 passed )"
+    },
+    {
+      "id": "TA-1",
+      "repo": "teachers-allocation",
+      "titulo": "Roda em container, Postgres 18 e dependências atualizadas",
+      "fecha": [],
+      "depende": [],
+      "suite": "sem suíte"
+    }
+  ]
+}

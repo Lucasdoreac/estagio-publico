@@ -22,7 +22,7 @@ function render(issues) {
       <a class="card" href="${issue.html_url}" target="_blank" rel="noreferrer">
         <small>#${issue.number}</small>
         <h3>${escapeHtml(issue.title)}</h3>
-        ${issue.body ? `<p>${escapeHtml(issue.body).slice(0, 150)}</p>` : ""}
+        ${issue.body ? `<p>${escapeHtml(issue.body.replace(/[*_`]/g, "")).slice(0, 150)}</p>` : ""}
       </a>`).join("") : '<p class="empty">Sem tarefas.</p>';
     return `<article class="column"><h2>${column.title} <span class="count">${cards.length}</span></h2>${items}</article>`;
   }).join("");

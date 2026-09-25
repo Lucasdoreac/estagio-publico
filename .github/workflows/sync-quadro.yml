@@ -1,0 +1,35 @@
+name: Sincronizar quadro com os PRs da fila
+
+# Mesmo desenho do CoOps (LabTechUDF/CoOps): Action agendada que lê a API do
+# GitHub com o GITHUB_TOKEN e grava o resultado no próprio repositório. Aqui:
+# um cartão (issue) por PR de data/fila.json, com o status tirado do PR na org.
+on:
+  schedule:
+    - cron: "0 */6 * * *"   # a cada 6 h
+  push:
+    branches: [main]
+    paths: [data/fila.json, scripts/sync_quadro.py, .github/workflows/sync-quadro.yml]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: sync-quadro
+  cancel-in-progress: false
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-python@v7
+        with:
+          python-version: "3.13"
+      - name: Atualizar cartões
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: python scripts/sync_quadro.py
