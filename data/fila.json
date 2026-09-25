@@ -254,6 +254,16 @@
       "suite": "front:verde (Tests  39 passed )"
     },
     {
+      "id": "IU-8",
+      "repo": "interfaces-usuario",
+      "titulo": "ESLint 10 (o 9 foi descontinuado); sai o eslint-plugin-react, parado",
+      "fecha": [],
+      "depende": [
+        "IU-7"
+      ],
+      "suite": "front:verde (Tests  40 passed )"
+    },
+    {
       "id": "ST-1",
       "repo": "supreme-test-framework",
       "titulo": "E2E roda em container e segue o login atual",
