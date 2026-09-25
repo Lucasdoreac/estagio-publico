@@ -192,6 +192,14 @@
       "suite": "front:verde (Tests  34 passed )"
     },
     {
+      "id": "ST-1",
+      "repo": "supreme-test-framework",
+      "titulo": "E2E roda em container e segue o login atual",
+      "fecha": [],
+      "depende": [],
+      "suite": "sem suíte"
+    },
+    {
       "id": "TA-1",
       "repo": "teachers-allocation",
       "titulo": "Roda em container, Postgres 18 e dependências atualizadas",
