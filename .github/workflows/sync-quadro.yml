@@ -8,7 +8,7 @@ on:
     - cron: "0 */6 * * *"   # a cada 6 h
   push:
     branches: [main]
-    paths: [data/fila.json, scripts/sync_quadro.py, .github/workflows/sync-quadro.yml]
+    paths: [data/fila.json, data/pendencias.json, scripts/sync_quadro.py, .github/workflows/sync-quadro.yml]
   workflow_dispatch:
 
 permissions:
