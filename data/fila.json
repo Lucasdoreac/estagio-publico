@@ -257,7 +257,7 @@
       "titulo": "Roda em container, Postgres 18 e dependências atualizadas",
       "fecha": [],
       "depende": [],
-      "suite": "sem suíte"
+      "suite": "alocacao:sem-testes"
     },
     {
       "id": "TA-2",
@@ -267,7 +267,7 @@
       "depende": [
         "TA-1"
       ],
-      "suite": "sem suíte"
+      "suite": "alocacao:verde (3 passed)"
     },
     {
       "id": "TA-3",
@@ -277,7 +277,7 @@
       "depende": [
         "TA-2"
       ],
-      "suite": "sem suíte"
+      "suite": "alocacao:verde (18 passed, 2 warnings)"
     },
     {
       "id": "TA-4",
@@ -287,7 +287,7 @@
       "depende": [
         "TA-3"
       ],
-      "suite": "sem suíte"
+      "suite": "alocacao:verde (19 passed, 2 warnings)"
     }
   ]
 }

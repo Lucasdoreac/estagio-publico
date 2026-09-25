@@ -1,0 +1,64 @@
+<!doctype html>
+<html lang="pt-BR">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="Evidências de testes do sistema de reservas da UDF: suíte medida em cada entrega">
+    <title>Evidências de testes | Estágio Público</title>
+    <link rel="stylesheet" href="assets/style.css">
+    <style>
+      .spec { max-width: 1080px; margin: 0 auto; padding: 2rem 1.5rem 4rem; }
+      .spec h2 { margin-top: 2.5rem; color: #172554; }
+      .lead { max-width: 52rem; color: #475569; font-size: 1.1rem; line-height: 1.6; }
+      .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1rem; }
+      .panel { padding: 1.15rem; border: 1px solid #dbe3f0; border-radius: .7rem; background: #fff; }
+      .panel strong { display: block; font-size: 1.8rem; color: #172554; }
+      .panel span { color: #475569; }
+      .tag { display: inline-block; padding: .2rem .5rem; border-radius: 999px; font-size: .75rem; font-weight: 800; white-space: nowrap; }
+      .tag.ok { color: #065f46; background: #d1fae5; }
+      .tag.fail { color: #991b1b; background: #fee2e2; }
+      .tag.none { color: #475569; background: #e2e8f0; }
+      .tag.rev { color: #075985; background: #e0f2fe; }
+      .tag.done { color: #065f46; background: #d1fae5; }
+      .table-wrap { overflow-x: auto; }
+      table { width: 100%; border-collapse: collapse; background: #fff; }
+      th, td { padding: .7rem; text-align: left; vertical-align: top; border-bottom: 1px solid #dbe3f0; }
+      th { color: #172554; }
+      td.suite { color: #334155; font-size: .9rem; }
+      @media (max-width: 600px) { table { font-size: .85rem; } th, td { padding: .5rem; } }
+    </style>
+  </head>
+  <body>
+    <header class="hero">
+      <div>
+        <p class="eyebrow">EVIDÊNCIAS DE TESTES</p>
+        <h1>Cada entrega, testada antes de ir para revisão</h1>
+        <p>Resultado da suíte de testes medida na versão final de cada entrega, em ambiente limpo.</p>
+      </div>
+      <nav aria-label="Navegação">
+        <a class="button" href="index.html">Quadro de tarefas</a>
+        <a class="button" href="modelo.html">Modelo do sistema</a>
+      </nav>
+    </header>
+
+    <main class="spec">
+      <p class="lead">O trabalho chega à organização como uma fila de pedidos de revisão (PRs). Antes de cada um ser aberto, a suíte de testes do serviço roda na versão final daquele PR, num container criado do zero, e o resultado fica registrado aqui. Cada correção vem com um teste que falhava antes dela. Esta página é gerada a partir de <code>data/fila.json</code> e do quadro público; ninguém é identificado.</p>
+
+      <h2>Resumo</h2>
+      <div class="grid" id="resumo"><p>Carregando…</p></div>
+
+      <h2>Por entrega</h2>
+      <div class="table-wrap">
+        <table>
+          <thead><tr><th>Entrega</th><th>Serviço</th><th>O que muda</th><th>Suíte na versão final</th><th>Situação</th></tr></thead>
+          <tbody id="linhas"><tr><td colspan="5">Carregando…</td></tr></tbody>
+        </table>
+      </div>
+
+      <h2>Como ler</h2>
+      <p class="lead"><b>verde (N passed)</b>: N testes automáticos rodaram e todos passaram. <b>sem suíte</b>: o serviço ainda não tinha testes automáticos naquela entrega; o que foi verificado está descrito no próprio PR. Além das suítes por serviço, um teste de ponta a ponta percorre pedido → Coordenação → Reitoria no sistema rodando, e um teste de login no navegador roda em container.</p>
+    </main>
+    <script src="assets/config.js"></script>
+    <script src="assets/evidencias.js"></script>
+  </body>
+</html>
