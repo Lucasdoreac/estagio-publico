@@ -268,6 +268,16 @@
         "TA-2"
       ],
       "suite": "sem suíte"
+    },
+    {
+      "id": "TA-4",
+      "repo": "teachers-allocation",
+      "titulo": "Tela da Coordenação volta a listar professores (/get-professors do próprio banco)",
+      "fecha": [],
+      "depende": [
+        "TA-3"
+      ],
+      "suite": "sem suíte"
     }
   ]
 }
