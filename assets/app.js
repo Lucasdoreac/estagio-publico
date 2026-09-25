@@ -28,6 +28,23 @@ function render(issues) {
   }).join("");
 }
 
+// Cartões da fila de PRs ([ID] no título) na ordem de data/fila.json; o resto
+// depois, da issue mais antiga para a mais nova.
+async function inQueueOrder(issues) {
+  let order = [];
+  try {
+    order = (await (await fetch("data/fila.json")).json()).fila.map((item) => item.id);
+  } catch {
+    // sem a fila, só a ordem por número
+  }
+  const position = (issue) => {
+    const match = issue.title.match(/^\[([A-Z]+-\d+)\]/);
+    const index = match ? order.indexOf(match[1]) : -1;
+    return index === -1 ? order.length + issue.number : index;
+  };
+  return [...issues].sort((a, b) => position(a) - position(b));
+}
+
 async function loadBoard() {
   const status = document.querySelector("#status");
   if (!configured) {
@@ -40,7 +57,7 @@ async function loadBoard() {
     const response = await fetch(`https://api.github.com/repos/${config.owner}/${config.repo}/issues?state=all&per_page=100`);
     if (!response.ok) throw new Error(`GitHub respondeu ${response.status}`);
     const issues = (await response.json()).filter((item) => !item.pull_request);
-    render(issues);
+    render(await inQueueOrder(issues));
     status.textContent = `${issues.length} tarefa(s) carregada(s) do GitHub.`;
   } catch (error) {
     render([]);
