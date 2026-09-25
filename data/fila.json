@@ -98,6 +98,28 @@
       "suite": "api:verde (93 passed)"
     },
     {
+      "id": "PS-7",
+      "repo": "python-services",
+      "titulo": "API recusa reserva com data no passado",
+      "fecha": [],
+      "depende": [
+        "PS-6"
+      ],
+      "suite": "api:verde (98 passed)"
+    },
+    {
+      "id": "PS-8",
+      "repo": "python-services",
+      "titulo": "Coordenação pede mudança no evento, com mensagem e link para editar",
+      "fecha": [
+        "#35"
+      ],
+      "depende": [
+        "PS-7"
+      ],
+      "suite": "api:verde (103 passed)"
+    },
+    {
       "id": "IU-1",
       "repo": "interfaces-usuario",
       "titulo": "Atualização completa: package-lock, Node 24, Vite + Vitest, React 19 e CI",
@@ -146,6 +168,28 @@
         "PS-6"
       ],
       "suite": "front:verde (Tests  26 passed )"
+    },
+    {
+      "id": "IU-5",
+      "repo": "interfaces-usuario",
+      "titulo": "Meus Eventos mostra o pedido de mudança da Coordenação e o rótulo Rascunho",
+      "fecha": [],
+      "depende": [
+        "IU-4",
+        "PS-8"
+      ],
+      "suite": "front:verde (Tests  29 passed )"
+    },
+    {
+      "id": "IU-6",
+      "repo": "interfaces-usuario",
+      "titulo": "Agenda sem horário que já passou; confirmação explica o 400",
+      "fecha": [],
+      "depende": [
+        "IU-5",
+        "PS-7"
+      ],
+      "suite": "front:verde (Tests  34 passed )"
     },
     {
       "id": "TA-1",
