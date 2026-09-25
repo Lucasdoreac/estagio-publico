@@ -20,6 +20,33 @@ agenda não identificável e planejamento por Issues. Reservas reais, aprovaçã
 dados de contato, autenticação e auditoria precisam de uma aplicação com API e
 banco de dados próprios.
 
+## Estado atual (setembro de 2026)
+
+O sistema de reservas já existe nos repositórios da LabTechUDF e roda de ponta a
+ponta em ambiente de desenvolvimento, com testes automáticos. Ainda não está
+implantado para uso real: falta definir a hospedagem.
+
+- **Pesquisa de disponibilidade: parcial.** Salas livres por data e horário, busca
+  por nome da sala. Filtros de capacidade, recursos e acessibilidade ainda não.
+- **Pedido avulso: existe.** Assistente em etapas, com rascunho salvo.
+- **Conflito: existe.** Um segundo pedido para a mesma sala e horário é recusado,
+  inclusive com pedidos simultâneos.
+- **Aprovação: existe.** Palestra e oficina passam pela Coordenação e depois pela
+  Reitoria, por link no e-mail de uso único; aula e prova são aprovadas direto,
+  com aviso por e-mail à Reitoria. A Coordenação pode pedir mudança; o formulário
+  para a pessoa solicitante atender o pedido está em revisão.
+- **Aulas do semestre ocupando salas: aguarda dados.** Passam a bloquear salas
+  assim que o calendário acadêmico informar o dia da semana de cada turma.
+- **Ainda não:** reserva recorrente, cancelamento e remarcação, bloqueio e
+  realocação, check-in e ausência, relatórios.
+- **Auditoria: parcial.** Registros técnicos sem dados sensíveis; trilha por ação
+  ainda não.
+
+Como é construído hoje: interface em React; API em Python (Flask); MongoDB; entrada
+por link enviado ao e-mail institucional (@udf.edu.br), sem senha; catálogo de
+salas, cursos e turmas como serviço próprio (REST e GraphQL, com chave de acesso);
+PDF do pedido em armazenamento compatível com S3.
+
 ## Requisitos funcionais
 
 1. Cadastrar espaços com campus, localização, tipo, capacidade, equipamentos,
@@ -70,7 +97,8 @@ Após o horário reservado, uma reserva aprovada pode terminar como `utilizada`,
    anonimizada.
 2. Aplicação autenticada: interface para solicitantes, aprovadores e gestores.
 3. API: aplica autorização, regras de conflito, filas e notificações.
-4. Banco relacional: espaços, horários, reservas, séries, bloqueios e auditoria.
+4. Banco de dados: hoje MongoDB. Espaços, horários, reservas, séries, bloqueios e
+   auditoria continuam sendo as entidades necessárias, independentemente do banco.
 5. Integrações futuras: identidade institucional e calendário, somente após
    requisitos e autorização definidos.
 
