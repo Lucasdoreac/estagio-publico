@@ -52,8 +52,10 @@ def call(method, path, token, body=None):
         return json.loads(res.read() or "null")
 
 
-def pr_da_fila(org, repo, dono_fork, pid, token):
-    prs = call("GET", f"/repos/{org}/{repo}/pulls?state=all&head={dono_fork}:pr/{pid}&per_page=10", token)
+def pr_da_fila(org, repo, dono_fork, pid, token, branch=None):
+    """PR do fork para o item: pela branch declarada na fila ou, na fila antiga, por pr/<id>."""
+    head = branch or f"pr/{pid}"
+    prs = call("GET", f"/repos/{org}/{repo}/pulls?state=all&head={dono_fork}:{head}&per_page=10", token)
     return prs[0] if prs else None  # o mais recente primeiro
 
 
@@ -87,7 +89,7 @@ def corpo(item, org, pr, situacao):
         linhas.append("**Fecha:** " + ", ".join(f"{org}/{item['repo']}{n}" for n in item["fecha"]))
     if item["depende"]:
         linhas.append("**Depende de:** " + ", ".join(item["depende"]))
-    linhas.append(f"**Suíte na ponta do PR (medida localmente):** {item['suite']}")
+    linhas.append(f"**Verificação:** {item['suite']}")
     linhas.append("\n_Cartão mantido pela Action `sync-quadro` a partir de `data/fila.json`. Não edite à mão._")
     return "\n\n".join(linhas)
 
@@ -124,7 +126,7 @@ def main():
 
     ultimo_do_repo = {}  # repo -> PR (ou None) do item anterior da fila
     for item in dados["fila"]:
-        pr = pr_da_fila(org, item["repo"], dono_fork, item["id"], token)
+        pr = pr_da_fila(org, item["repo"], dono_fork, item["id"], token, item.get("branch"))
         anterior = ultimo_do_repo.get(item["repo"], "nenhum")
         anterior_andou = anterior == "nenhum" or (anterior is not None and (
             anterior.get("merged_at") or anterior["state"] == "open"))
@@ -149,6 +151,19 @@ def main():
         print(f"{item['id']}: {'atualiza' if mudou else 'sem mudança'} ({status})")
         if mudou and not args.dry_run:
             call("PATCH", f"/repos/{este}/issues/{atual['number']}", token, desejado)
+
+    # Cartões de itens que saíram da fila (a fila antiga pr/<ID> foi substituída pelos
+    # PRs atuais): fechados como "não planejado", com um comentário que explica.
+    atuais = {item["id"] for item in dados["fila"]}
+    for cid, cartao in sorted(cartoes.items()):
+        if cid in atuais or cartao["state"] != "open":
+            continue
+        print(f"{cid}: fora da fila atual; fecha o cartão")
+        if not args.dry_run:
+            call("POST", f"/repos/{este}/issues/{cartao['number']}/comments", token,
+                 {"body": "Item da fila antiga, substituído pelos PRs atuais da fila (data/fila.json)."})
+            call("PATCH", f"/repos/{este}/issues/{cartao['number']}", token,
+                 {"state": "closed", "state_reason": "not_planned"})
 
     sincroniza_pendencias(este, token, args.dry_run)
 
