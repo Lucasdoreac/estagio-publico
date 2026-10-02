@@ -27,13 +27,18 @@
     },
     {
       "id": "D-6",
-      "titulo": "Alocação",
-      "texto": "as telas da Coordenação são maquete (\"Salvar\" não grava; cursos fixos no código); falta desenhar o modelo da grade."
+      "titulo": "Alocação → Reservas (experimento 26/09)",
+      "texto": "há um protótipo local que persiste a grade da Coordenação e relaciona turma/curso/semestre (`feat/persist-course-schedule-prototype`, 21 testes e build front passam). Falta export autenticado por chave para o Reservas. O banco testado tem 0 grades reais, `Offer` não guarda curso e `Offer.discipline` (`COD_DISC`) não tem crosswalk verificado com `Alocação.Disciplina.id`; não sincronizar dias automaticamente antes de definir IDs comuns."
     },
     {
       "id": "D-7",
-      "titulo": "Alocação continua?",
-      "texto": "O projeto parou em março de 2025 (telas da Coordenação em maquete; a tabela da grade existe, mas nada grava nela). Se continua: terminar a grade sobre Turma_Disciplina (com \"tarde\" e sábado) e integrar ao Reservas pelo catálogo, e a tela de ofertas vira só leitura. Se não: a tela de ofertas passa a ser a fonte dos dias das aulas e o repositório pode ser arquivado."
+      "titulo": "Calendário do Reservas",
+      "texto": "enquanto a integração não oferece dados confiáveis, `Offer.weekdays` continua sendo preenchido pela Coordenação; falta carga/edição assistida e confirmação das horas reais dos períodos. O importador ainda fixa ANO=2024/SEMESTRE=2."
+    },
+    {
+      "id": "D-8",
+      "titulo": "Magic link do desenvolvedor",
+      "texto": "o e-mail institucional do desenvolvedor está permitido e testado; shared-resources PR #28 está aberto para tornar a regra de allowlist durável."
     }
   ]
 }
