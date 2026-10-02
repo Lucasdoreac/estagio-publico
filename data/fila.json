@@ -6,7 +6,11 @@
       "repo": "python-services",
       "titulo": "feat(api): atualiza dependências e protege e-mail de Staging",
       "branch": "test/repair-logger-tests",
-      "fecha": [],
+      "fecha": [
+        "#32",
+        "#64",
+        "#65"
+      ],
       "depende": [],
       "suite": "CI do fork na ponta do PR: verde (1 workflow)"
     },
@@ -26,7 +30,9 @@
       "repo": "shared-resources",
       "titulo": "feat(auth): atualiza Auth e isola e-mail de Staging",
       "branch": "chore/auth-dependencies-focused",
-      "fecha": [],
+      "fecha": [
+        "#24"
+      ],
       "depende": [
         "PS-68"
       ],
@@ -39,7 +45,12 @@
       "branch": "feat/react-router-framework",
       "fecha": [
         "#16",
-        "#36"
+        "#20",
+        "#24",
+        "#25",
+        "#35",
+        "#36",
+        "#37"
       ],
       "depende": [
         "SR-30",
