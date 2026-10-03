@@ -23,7 +23,7 @@
       "depende": [
         "PS-68"
       ],
-      "suite": "CI do fork na ponta do PR: verde (2 workflows)"
+      "suite": "CI do fork na ponta do PR: verde (1 workflow)"
     },
     {
       "id": "SR-31",
